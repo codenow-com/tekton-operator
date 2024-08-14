@@ -163,6 +163,10 @@ func ReconcileTargetNamespace(ctx context.Context, labels map[string]string, ann
 			}
 		}
 
+		// TODO Temporary fix
+		// The tekton operator should not control the target namespace if it already exists, see https://github.com/tektoncd/operator/issues/652
+		updateRequired = false
+
 		// update the namespace, if required
 		if updateRequired {
 			_, err = kubeClientSet.CoreV1().Namespaces().Update(ctx, targetNamespace, metav1.UpdateOptions{})
